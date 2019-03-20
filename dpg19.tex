@@ -1,5 +1,5 @@
 \PassOptionsToPackage{unicode}{hyperref}
-\documentclass[aspectratio=1610, captions=tableheading, 9pt]{beamer}
+\documentclass[aspectratio=1610, captions=tableheading, 11pt]{beamer}
 \usepackage{booktabs}
 % Load packages you need here
 \usepackage{polyglossia}
@@ -12,6 +12,7 @@
 \usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage[mathrm=sym]{unicode-math}
+\usepackage{relsize}
 
 \usepackage[
   locale=DE,                 % deutsche Einstellungen
@@ -43,6 +44,18 @@
 
 \usepackage{tikz-feynman}
 \usepackage{xfrac}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\tikzstyle{decision} = [rectangle, draw, fill=red!20, 
+    text width=15em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=20em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
 
 % nur wenn akkurat auf dem Rechner installiert ist:
 \setsansfont{Akkurat Light}[
@@ -51,13 +64,14 @@
 
 
 \author[J. Alameddine]{Jean-Marco Alameddine}
-\title{Implementation von Myon-Paarproduktion in PROPOSAL}
-\date[12.02.2019]{12.02.2019}
+\title{Improvements in the high-energy\\ lepton propagator PROPOSAL}
+\date[25.03.2019]{25.03.2019}
 
 \institute[%
-  {\includegraphics[height=\headerheight]{e5b.pdf}}%
+  {\includegraphics[height=0.9\headerheight]{e5b.pdf}}%
 ]{E5b}
 
+\newcommand\CC{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}\:}
 %\titlegraphic{\includegraphics[height=0.4\textheight]{example-image-a}}
 
 \begin{document}
@@ -67,7 +81,85 @@
 \end{frame}
 
 
-\begin{frame}{Prozess der Myon-Paarproduktion}
+\begin{frame}{Introduction}
+      \begin{itemize}
+        \setlength\itemsep{0.5em}
+        \item \textbf{PROPOSAL}: Tool to propagate charged leptons
+        \begin{itemize}
+          \item[$\rightarrow$] MC simulations, multivariate statistics
+        \end{itemize}
+        \item \textbf{Requirements:} Accuracy, performance
+        \item \textbf{Processes:} Energy losses, scattering, decays
+        \item Possibility to use \textbf{different parametrizations} $\rightarrow$ Study \textbf{systematic uncertanties}
+        \item \CC library with Python bindings
+      \end{itemize}
+\end{frame}
+
+\begin{frame}{Propagation}
+  \Huge
+  \begin{align*}
+      \frac{\mathrm{d}\sigma}{\mathrm{d}v} \quad \underbrace{\longrightarrow}_{?} \quad \text{energy losses}
+  \end{align*}
+\end{frame}
+
+\begin{frame}{Propagation}
+  \huge
+  \begin{align*}
+      \underset{\text{continuous losses}}{v < v_\text{cut}} && \underset{\text{stochastic losses}}{v_\text{cut} < v}
+  \end{align*}\\
+  \vspace{20px}
+  \centering
+    \Large
+  with $v_\text{cut} = \text{min}\left[\sfrac{e_\text{cut}}{E}, v\prime_\text{cut} \right]$
+\end{frame}
+
+\begin{frame}{Propagation}
+\begin{tikzpicture}[node distance = 1.7cm, auto]
+    % Place nodes
+    \node [block] (one) {Calculate energy at which a stochastic loss occurs};
+    \node [block, below of=one] (two) {Calculate continuous losses via:\\ \vspace{5px}
+ $- \left\langle \frac{\mathrm{d}E}{\mathrm{d}x} \right\rangle \propto E \int_{v_\text{min}}^{v_\text{cut}} v \frac{\mathrm{d}\sigma}{\mathrm{d}v} \mathrm{d}v$};
+    \node [block, below of=two] (three) {Calculate type of stochastic loss};
+    \node [block, below of=three] (four) {Sample the stochastic energy loss via:\\\vspace{5px} $\frac{1}{\sigma} \int_{v_\text{cut}}^{v\left(\xi\right)} \frac{\mathrm{d}\sigma}{\mathrm{d}v} \mathrm{d}v = \xi$};
+    \node [decision, right of=three, node distance=7.5cm] (repeat) {Repeat until $E < e_0$ or\\ particle reached section border};
+
+    % Draw edges
+    \path [line] (one) -- (two);
+    \path [line] (two) -- (three);
+    \path [line] (three) -- (four);
+    \path [line, dashed] (four) -| (repeat);
+    \path [line, dashed] (repeat) |- (one);
+
+
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+
+\begin{figure}
+    \centering
+    \includegraphics[height=0.85\textheight, trim=1.9cm 0.5cm 1.9cm 2cm,clip=true]{plots/standard.pdf}
+    \caption{Propagation of $\num{e4}$ muons with energy $\SI{e8}{\mega\electronvolt}$ through $\SI{100}{\metre}$ of Standard Rock.}
+    \label{fig:1}
+\end{figure}
+\end{frame}
+
+\begin{frame}<presentation:0>[noframenumbering]
+\begin{figure}
+  \begin{minipage}[c]{0.7\textwidth}
+    \includegraphics[width=\textwidth , trim=1.9cm 0.5cm 1.9cm 2cm,clip=true]{plots/standard.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.3\textwidth}
+    Propagation of $\num{e4}$ muons with energy $\SI{e8}{\mega\electronvolt}$ through $\SI{100}{\metre}$ of Standard Rock.
+     \label{fig:03-03}
+  \end{minipage}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Direct Production of Muon Pairs}
   \begin{columns}
     \column{0.5\textwidth}
     \begin{center}
@@ -113,112 +205,110 @@
     \end{tikzpicture}
   \end{center}
   \column{0.5\textwidth}
-      Mit dem relativen Energieübertrag:
+    With the energy fraction transferred to the muon pair:
       \begin{align*}
-        v = \frac{\left( \epsilon_+ + \epsilon_- \right)}{E} \\[0.3cm]
+        v = \frac{\left( \epsilon_+ + \epsilon_- \right)}{E} \\[0.1cm]
       \end{align*}
-    Mit dem Asymmetrieparameter:
+    With the asymmetry parameter:
     \begin{align*}
-      \rho = \frac{\left( \epsilon_+ - \epsilon_- \right)}{\left( \epsilon_+ + \epsilon_- \right)} \\[0.3cm]
+      \rho = \frac{\left( \epsilon_+ - \epsilon_- \right)}{\left( \epsilon_+ + \epsilon_- \right)} \\[0.1cm]
     \end{align*}
 
-    $E$: Energie des eingehenden Myons $\mu_\text{i}$ \\
-    $\epsilon_\pm$: Energie des erzeugten (Anti-)Myons 
+    $E$: Initial energy of the ingoing muon $\mu_\text{i}$ \\
+    $\epsilon_\pm$: Energy of the produced (anti)muon
 
   \end{columns}
 
 \end{frame}
 
-\begin{frame}{Differentieller Wirkungsquerschnitt}
+\begin{frame}{Double-differential cross section}
 
-Für Myon-Paarproduktion (durch ein Myon) \footnote{Kellner, Kokoulin, Petrukhin: Phys. of Atomic Nuclei, Vol. 63, No. 9, 2000, pp. 1603-1611}:
+For production of muon pairs \footnote{Kellner, Kokoulin, Petrukhin: Phys. of Atomic Nuclei, Vol. 63, No. 9, 2000, pp. 1603-1611}:
 \begin{align*}
   \frac{\mathrm{d}\sigma}{\mathrm{d}v \mathrm{d}\rho} &= \frac{2}{3\pi} (Z \alpha r_\mu)^2 \frac{1-v}{v} \Phi(v, \rho) \ln \left( X \right)
 \intertext{%
-Für Elektron-Paarproduktion (durch ein Myon) \footnotemark:}
+For production of electron-positron pairs \footnotemark:}
   \frac{\mathrm{d}\sigma}{\mathrm{d}v \mathrm{d}\rho} &= \frac{2}{3\pi} Z \left(Z + \xi \right) \left( \alpha r_e \right)^2 \frac{1-v}{v} \left( \Phi_e + \frac{m_e^2}{m_\mu^2} \Phi_\mu \right)
 \end{align*}
-$Z$: Kernladungszahl\\
-$\alpha$: Feinstrukturkonstante\\
-$r$: Klassischer Radius Elektron/Myon\\
+%$Z$: Kernladungszahl\\
+%$\alpha$: Feinstrukturkonstante\\
+%$r$: Klassischer Radius Elektron/Myon\\
 \footnotetext{Kokoulin, Petrukhin: Proceedings of 12th ICCR, 1971, p. 2436}
 
 \end{frame}
 
-\begin{frame}{Differentieller Wirkungsquerschnitt}
+\begin{frame}<presentation:0>[noframenumbering]{Differential cross section}
 
 \begin{figure}
     \centering
-    \includegraphics[height=0.8\textheight]{plots/mupair_crosssection.pdf}
-    \caption{Differentieller Wirkungsquerschnitt in $v$ für verschiedene Myonenergien. Propagation in Standard-Fels.}
+    \includegraphics[height=0.8\textheight, trim=0cm 0.2cm 0cm 1cm,clip=true]{plots/mupair_crosssection.pdf}
+    \caption{Differential cross section in $v$ for two different muon energies. Propagation in Standard Rock.}
     \label{fig:1}
 \end{figure}
 
 \end{frame}
 
 
-\begin{frame}{Energieverlust pro Strecke}
+\begin{frame}
+\vspace{-5mm}
   \begin{columns}
     \column{0.4\textwidth}
-Es gilt für den mittleren (kontinuierlichen) Energieverlust pro Strecke:
+Continous energy loss per distance
 \begin{align*}
   - \left\langle \frac{\mathrm{d}E}{\mathrm{d}x} \right\rangle &= E \frac{N_\text{A}}{A} \int_{v_\text{min}}^{v_\text{cut}} v \frac{\mathrm{d}\sigma}{\mathrm{d}v} \mathrm{d}v
 \intertext{%
-mit}
+with}
 v_\text{min} &= \frac{2 m_\mu}{E}, \\
 v_\text{max} &= 1 - \frac{m_\mu}{E}. \\
 \end{align*}
     \column{0.6\textwidth}
 \begin{figure}
     \centering
-    \includegraphics[height=0.75\textheight]{plots/mupair_compare.pdf}
-    \caption{Energieverluste im Vergleich, betrachte hier Propagation ausschließlich mit kontinuierlichen Verlusten (d.h. $v_\text{cut} = v_\text{max}$).}
+    \includegraphics[height=0.85\textheight, trim=0.5cm 0.5cm 0.4cm 0cm, clip=true]{plots/mupair_compare.pdf}
+    \caption{Comparion of $e$-pair and $\mu$-pair production, only continous losses (i.e.\ $v_\text{cut} = v_\text{max}$).}
     \label{fig:2}
 \end{figure}
   \end{columns}
 
 \end{frame}
 
-\begin{frame}{Stochastische Verluste}
+\begin{frame}
+\vspace{-5mm}
   \begin{columns}
-    \column{0.32\textwidth}
 
+
+
+    \column{0.62\textwidth}
+\begin{figure}
+    \centering
+    \includegraphics[height=0.8\textheight, trim=1.9cm 0.5cm 2.9cm 2cm, clip=true]{plots/mupair_secondaries.pdf}
+
+    \label{fig:2}
+\end{figure}
+
+    \column{0.32\textwidth}
+    \small
     \begin{table}
       \centering
       \begin{tabular}{c c c}
         \toprule
-        $\text{Prozess}$ & $N \,/\, N_\text{ges}$ & $E \,/\, E_\text{ges}$ \\
+        $\text{process}$ & $N \,/\, N_\text{ges}$ & $E \,/\, E_\text{ges}$ \\
         \midrule
-        $e$ Paarprod. & \num{0.94} & \num{0.94} \\
-        Ionisat. & \num{4e-2} & \num{5e-2} \\
-        Bremsstr. & \num{1e-2} & \num{7e-3} \\
-        Photonuk. & \num{8e-3} & \num{6e-3} \\
-        $\mu$ Paarprod. & \num{6e-5} & \num{5e-5} \\
+        $e$ pairp. & \num{0.94} & \num{0.94} \\
+        Ionis. & \num{4e-2} & \num{5e-2} \\
+        Brems. & \num{1e-2} & \num{7e-3} \\
+        Photon. & \num{8e-3} & \num{6e-3} \\
+        $\mu$ pairp. & \num{6e-5} & \num{5e-5} \\
         \bottomrule 
       \end{tabular}
     \end{table}
 
-
-    \column{0.7\textwidth}
-\begin{figure}
-    \centering
-    \includegraphics[height=0.75\textheight]{plots/secondaries.pdf}
-    \caption{Stochastische Verluste von \num{1e6} Myonen der Energie $\SI{1e8}{\mega\electronvolt}$, propagiert durch Standardgestein, $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = \num{5e-2}$.}
-    \label{fig:2}
-\end{figure}
   \end{columns}
-
+  \small
+    \vspace{5mm}
+    Stochastic losses in Standard Rock of \num{e6} muons with $E = \SI{e8}{\mega\electronvolt}$, $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = \num{5e-2}$.
 \end{frame}
 
-
-\begin{frame}{Stochastische Energieverluste hochenergetischer Myonen}
-\begin{figure}
-    \centering
-    \includegraphics[height=0.8\textheight]{plots/e_losses_new.pdf}
-    \caption{Energieverluste in Abhängigkeit der Primärteilchenenergie $E$ und der Sekundärteilchenenergie $v \cdot E$. Propagiert wurden \num{5000} Myonen der Energie \SI{1e14}{\mega\electronvolt} durch Eis mit $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = \num{5e-2}$.}
-    \label{fig:1}
-\end{figure}
-\end{frame}
 
 
 \end{document}
