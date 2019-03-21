@@ -91,7 +91,7 @@
         \end{itemize}
         \item \textbf{Requirements:} Accuracy, performance
         \item \textbf{Processes:} Energy losses, scattering, decays
-        \item Possibility to use \textbf{different parametrizations} $\rightarrow$ Study \textbf{systematic uncertanties}
+        \item Possibility to use \textbf{different parametrizations} $\rightarrow$ Study \textbf{systematic uncertainties}
         \item \CC library with Python bindings
       \end{itemize}
 \end{frame}
@@ -118,17 +118,17 @@
 \begin{tikzpicture}[node distance = 1.7cm, auto]
     % Place nodes
     \node [block] (one) {Calculate energy at which a stochastic loss occurs};
-    \node [block, below of=one] (two) {Calculate continuous losses via:\\ \vspace{5px}
- $- \left\langle \frac{\mathrm{d}E}{\mathrm{d}x} \right\rangle \propto E \int_{v_\text{min}}^{v_\text{cut}} v \frac{\mathrm{d}\sigma}{\mathrm{d}v} \mathrm{d}v$};
-    \node [block, below of=two] (three) {Calculate type of stochastic loss};
-    \node [block, below of=three] (four) {Sample the stochastic energy loss via:\\\vspace{5px} $\frac{1}{\sigma} \int_{v_\text{cut}}^{v\left(\xi\right)} \frac{\mathrm{d}\sigma}{\mathrm{d}v} \mathrm{d}v = \xi$};
-    \node [decision, right of=three, node distance=7.5cm] (repeat) {Repeat until $E < e_0$ or\\ particle reached section border};
+    %\node [block, below of=one] (two) {Calculate continuous losses via:\\ \vspace{5px}
+ %$- \left\langle \frac{\mathrm{d}E}{\mathrm{d}x} \right\rangle \propto E \int_{v_\text{min}}^{v_\text{cut}} v \frac{\mathrm{d}\sigma}{\mathrm{d}v} \mathrm{d}v$};
+    \node [block, below of=one] (two) {Calculate type of stochastic loss};
+    \node [block, below of=two] (three) {Sample the stochastic energy loss via:\\\vspace{5px} $\frac{1}{\sigma} \int_{v_\text{cut}}^{v\left(\xi\right)} \frac{\mathrm{d}\sigma}{\mathrm{d}v} \mathrm{d}v = \xi$};
+    \node [decision, right of=two, node distance=7.5cm] (repeat) {Repeat until $E < e_0$ or\\ particle reached section border};
 
     % Draw edges
     \path [line] (one) -- (two);
     \path [line] (two) -- (three);
-    \path [line] (three) -- (four);
-    \path [line, dashed] (four) -| (repeat);
+    %\path [line] (three) -- (four);
+    \path [line, dashed] (three) -| (repeat);
     \path [line, dashed] (repeat) |- (one);
 
 
