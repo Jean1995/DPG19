@@ -8,6 +8,18 @@
 \usepackage{csquotes}
     
 
+\usepackage{caption}
+\usepackage{varwidth}
+\DeclareCaptionFormat{myformat}{%
+  % #1: label (e.g. "Table 1")
+  % #2: separator (e.g. ": ")
+  % #3: caption text
+  \begin{varwidth}{\linewidth}%
+    \centering
+    #1#2#3%
+  \end{varwidth}%
+}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathtools}
@@ -63,7 +75,7 @@
 ]
 
 
-\author[J. Alameddine]{Jean-Marco Alameddine}
+\author[jean-marco.alameddine@udo.edu]{Jean-Marco Alameddine}
 \title{Improvements in the high-energy\\ lepton propagator PROPOSAL}
 \date[25.03.2019]{25.03.2019}
 
@@ -106,7 +118,7 @@
 \begin{frame}{Propagation}
   \huge
   \begin{align*}
-      \underset{\text{continuous losses}}{v < v_\text{cut}} && \underset{\text{stochastic losses}}{v_\text{cut} < v}
+      \underset{\text{continuous losses}}{v < v_\text{cut}} &&  v > \underset{\text{stochastic losses}}{v_\text{cut}}
   \end{align*}\\
   \vspace{20px}
   \centering
@@ -122,7 +134,7 @@
  %$- \left\langle \frac{\mathrm{d}E}{\mathrm{d}x} \right\rangle \propto E \int_{v_\text{min}}^{v_\text{cut}} v \frac{\mathrm{d}\sigma}{\mathrm{d}v} \mathrm{d}v$};
     \node [block, below of=one] (two) {Calculate type of stochastic loss};
     \node [block, below of=two] (three) {Sample the stochastic energy loss via:\\\vspace{5px} $\frac{1}{\sigma} \int_{v_\text{cut}}^{v\left(\xi\right)} \frac{\mathrm{d}\sigma}{\mathrm{d}v} \mathrm{d}v = \xi$};
-    \node [decision, right of=two, node distance=7.5cm] (repeat) {Repeat until $E < e_0$ or\\ particle reached section border};
+    \node [decision, right of=two, node distance=7.5cm] (repeat) {Repeat until $E < e_0$ or\\ particle reaches section border};
 
     % Draw edges
     \path [line] (one) -- (two);
@@ -143,7 +155,7 @@
     \begin{minipage}{0.9\textwidth}
       \textbf{Standard interactions:}
       \begin{itemize}
-        \item $e$ pairproduction
+        \item $e$ pair production
         \item Bremsstrahlung
         \item Photonuclear
         \item Ionization
@@ -156,9 +168,9 @@
     \begin{minipage}{0.9\textwidth}
       \textbf{Rare interactions:}
       \begin{itemize}
-         \item $\mu$ pairproduction
+         \item $\mu$ pair production
           \item Weak interaction
-          \item[$\rightarrow$] Neglible contribution to overall energy loss
+          \item[$\rightarrow$] Negligible contribution to overall energy loss
           \item[$\rightarrow$] Observable, interesting signature
       \end{itemize}
     \end{minipage}
@@ -176,7 +188,7 @@
 \begin{figure}
     \centering
     \includegraphics[height=0.85\textheight, trim=1.9cm 0.5cm 1.9cm 2cm,clip=true]{plots/standard.pdf}
-    \caption{Propagation of $\num{e4}$ muons with energy $\SI{e8}{\mega\electronvolt}$ through $\SI{100}{\metre}$ of Standard Rock.}
+    \caption*{Propagation of $\num{e4}$ muons with energy $\SI{e8}{\mega\electronvolt}$ through $\SI{100}{\metre}$ of standard rock.}
     \label{fig:1}
 \end{figure}
 \end{frame}
@@ -187,7 +199,7 @@
     \includegraphics[width=\textwidth , trim=1.9cm 0.5cm 1.9cm 2cm,clip=true]{plots/standard.pdf}
   \end{minipage}\hfill
   \begin{minipage}[c]{0.3\textwidth}
-    Propagation of $\num{e4}$ muons with energy $\SI{e8}{\mega\electronvolt}$ through $\SI{100}{\metre}$ of Standard Rock.
+    Propagation of $\num{e4}$ muons with energy $\SI{e8}{\mega\electronvolt}$ through $\SI{100}{\metre}$ of standard rock.
      \label{fig:03-03}
   \end{minipage}
 \end{figure}
@@ -253,20 +265,20 @@
       \rho = \frac{\left( \epsilon_+ - \epsilon_- \right)}{\left( \epsilon_+ + \epsilon_- \right)} \\[0.1cm]
     \end{align*}
 
-    $E$: Initial energy of the ingoing muon $\mu_\text{i}$ \\
+    $E$: Initial energy of the incoming muon $\mu_\text{i}$ \\
     $\epsilon_\pm$: Energy of the produced (anti)muon
 
   \end{columns}
 
 \end{frame}
 
-\begin{frame}{Double-differential cross section}
+\begin{frame}<presentation:0>[noframenumbering]{Double-differential cross section}
 
 For production of muon pairs \footnote{Kelner, Kokoulin, Petrukhin: Phys. of Atomic Nuclei, Vol. 63, No. 9, 2000, pp. 1603-1611}:
 \begin{align*}
   \frac{\mathrm{d}\sigma}{\mathrm{d}v \mathrm{d}\rho} &= \frac{2}{3\pi} (Z \alpha r_\mu)^2 \frac{1-v}{v} \Phi(v, \rho) \ln \left( X \right)
 \intertext{%
-For production of electron-positron pairs \footnotemark:}
+For production of electron positron pairs \footnotemark:}
   \frac{\mathrm{d}\sigma}{\mathrm{d}v \mathrm{d}\rho} &= \frac{2}{3\pi} Z \left(Z + \xi \right) \left( \alpha r_e \right)^2 \frac{1-v}{v} \left( \Phi_e + \frac{m_e^2}{m_\mu^2} \Phi_\mu \right)
 \end{align*}
 %$Z$: Kernladungszahl\\
@@ -281,7 +293,7 @@ For production of electron-positron pairs \footnotemark:}
 \begin{figure}
     \centering
     \includegraphics[height=0.8\textheight, trim=0cm 0.2cm 0cm 1cm,clip=true]{plots/mupair_crosssection.pdf}
-    \caption{Differential cross section in $v$ for two different muon energies. Propagation in Standard Rock.}
+    \caption*{Differential cross section in $v$ for two different muon energies. Propagation in standard rock.}
     \label{fig:1}
 \end{figure}
 
@@ -304,7 +316,7 @@ v_\text{max} &= 1 - \frac{m_\mu}{E}. \\
 \begin{figure}
     \centering
     \includegraphics[height=0.85\textheight, trim=0.5cm 0.5cm 0.4cm 0cm, clip=true]{plots/mupair_compare.pdf}
-    \caption{Comparion of $e$-pair and $\mu$-pair production, only continous losses (i.e.\ $v_\text{cut} = v_\text{max}$).}
+    \caption*{Comparion of $e$-pair and $\mu$-pair production, only continous losses (i.e.\ $v_\text{cut} = v_\text{max}$).}
     \label{fig:2}
 \end{figure}
   \end{columns}
@@ -334,7 +346,7 @@ v_\text{max} &= 1 - \frac{m_\mu}{E}. \\
         $\text{process}$ & $N \,/\, N_\text{ges}$ & $E \,/\, E_\text{ges}$ \\
         \midrule
         $e$ pairp. & \num{0.94} & \num{0.94} \\
-        Ionis. & \num{4e-2} & \num{5e-2} \\
+        Ioniz. & \num{4e-2} & \num{5e-2} \\
         Brems. & \num{1e-2} & \num{7e-3} \\
         Photon. & \num{8e-3} & \num{6e-3} \\
         $\mu$ pairp. & \num{6e-5} & \num{5e-5} \\
@@ -345,7 +357,7 @@ v_\text{max} &= 1 - \frac{m_\mu}{E}. \\
   \end{columns}
   \small
     \vspace{5mm}
-    Stochastic losses in Standard Rock of \num{e6} muons with $E = \SI{e8}{\mega\electronvolt}$, $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = \num{5e-2}$.
+    Stochastic losses in standard rock of \num{e6} muons with $E = \SI{e8}{\mega\electronvolt}$, $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = \num{5e-2}$.
 \end{frame}
 
 \begin{frame}
@@ -354,7 +366,7 @@ v_\text{max} &= 1 - \frac{m_\mu}{E}. \\
 \begin{figure}
     \centering
     \includegraphics[height=0.9\textheight, trim=0.3cm 0.5cm 0.3cm 2cm,clip=true]{plots/plot_01.pdf}
-    \caption{Sampling of $\rho$ for muons with $E = \SI{1e6}{\mega\electronvolt}$ and different $v$ in Standard Rock.}
+    \caption*{Sampling of $\rho$ for muons with $E = \SI{1e6}{\mega\electronvolt}$ and different $v$ in standard rock.}
     \label{fig:1}
 \end{figure}
 
@@ -418,11 +430,42 @@ v_\text{max} &= 1 - \frac{m_\mu}{E}. \\
 \begin{frame}{Future: Physical improvements in PROPOSAL}
       \begin{itemize}
         \setlength\itemsep{0.5em}
-        \item Improvement of electron/positron propagation
+        \item Improvement of electron propagation
         \item Propagation of high-energy photons
         \item Deflection of particles in magnetic fields
         \item Propagation through media with non-homogenous density
       \end{itemize}
 \end{frame}
+
+
+\begin{frame}[t]
+  \vspace{-5mm}
+  \begin{minipage}[t][0.8\textheight][t]{\textwidth}
+      \begin{columns}
+    \column{0.5\textwidth}
+      \begin{figure}
+          \centering
+          \includegraphics[width=0.6\linewidth]{plots/github.pdf}
+           \captionsetup{format=myformat}
+          \caption*{https://github.com/tudo-\\astroparticlephysics/PROPOSAL}
+      \end{figure}
+    \column{0.5\textwidth}
+      \begin{figure}
+          \centering
+          \includegraphics[width=0.6\linewidth]{plots/arxiv.pdf}
+          \captionsetup{format=myformat}
+          \caption*{https://arxiv.org/abs/1809.07740 \\ \phantom{astroparticlephysics/PROPOSAL}}
+      \end{figure}
+  \end{columns}
+  \end{minipage}
+  \vfill
+  \begin{minipage}{\textwidth}
+      \smaller
+      \begin{center}
+      PROPOSAL may be modified and distrubuted under terms of a modified LGPL license.\\More information on our GitHub page.
+      \end{center}
+  \end{minipage}
+\end{frame}
+
 
 \end{document}
