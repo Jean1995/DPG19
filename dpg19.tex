@@ -47,9 +47,9 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
 
-\tikzstyle{decision} = [rectangle, draw, fill=red!20, 
+\tikzstyle{decision} = [rectangle, draw, fill=tucitron!20, 
     text width=15em, text centered, rounded corners, minimum height=2em]
-\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+\tikzstyle{block} = [rectangle, draw, fill=tugreen!20, 
     text width=20em, text centered, rounded corners, minimum height=2em]
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
@@ -137,6 +137,41 @@
 \end{frame}
 
 \begin{frame}
+\begin{columns}
+  \column{0.3\textwidth}
+  \begin{center}
+    \begin{minipage}{0.9\textwidth}
+      \textbf{Standard interactions:}
+      \begin{itemize}
+        \item $e$ pairproduction
+        \item Bremsstrahlung
+        \item Photonuclear
+        \item Ionization
+      \end{itemize}
+    \end{minipage}
+  \end{center}
+
+  \column{0.5\textwidth}
+  \begin{center}
+    \begin{minipage}{0.9\textwidth}
+      \textbf{Rare interactions:}
+      \begin{itemize}
+         \item $\mu$ pairproduction
+          \item Weak interaction
+          \item[$\rightarrow$] Neglible contribution to overall energy loss
+          \item[$\rightarrow$] Observable, interesting signature
+      \end{itemize}
+    \end{minipage}
+  \end{center}
+
+\end{columns}
+\end{frame}
+
+
+
+
+
+\begin{frame}
 
 \begin{figure}
     \centering
@@ -160,6 +195,8 @@
 \end{frame}
 
 %%% Muon pair prodction
+
+
 
 \begin{frame}{Direct Production of Muon Pairs}
   \begin{columns}
@@ -225,7 +262,7 @@
 
 \begin{frame}{Double-differential cross section}
 
-For production of muon pairs \footnote{Kellner, Kokoulin, Petrukhin: Phys. of Atomic Nuclei, Vol. 63, No. 9, 2000, pp. 1603-1611}:
+For production of muon pairs \footnote{Kelner, Kokoulin, Petrukhin: Phys. of Atomic Nuclei, Vol. 63, No. 9, 2000, pp. 1603-1611}:
 \begin{align*}
   \frac{\mathrm{d}\sigma}{\mathrm{d}v \mathrm{d}\rho} &= \frac{2}{3\pi} (Z \alpha r_\mu)^2 \frac{1-v}{v} \Phi(v, \rho) \ln \left( X \right)
 \intertext{%
@@ -384,7 +421,7 @@ v_\text{max} &= 1 - \frac{m_\mu}{E}. \\
         \item Improvement of electron/positron propagation
         \item Propagation of high-energy photons
         \item Deflection of particles in magnetic fields
-        \item Allow continous density corrections in media
+        \item Propagation through media with non-homogenous density
       \end{itemize}
 \end{frame}
 
