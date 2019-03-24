@@ -70,8 +70,8 @@
 \setbeamertemplate{caption}{\raggedright\insertcaption\par}
 
 % nur wenn akkurat auf dem Rechner installiert ist:
-\setsansfont{Akkurat Light}[
-  BoldFont=Akkurat Bold,
+\setsansfont{Akkurat Light Office}[
+  BoldFont=Akkurat Office Bold,
 ]
 
 
@@ -95,6 +95,9 @@
 %%% Introduction %%%
 
 \begin{frame}{Introduction}
+  \begin{columns}
+    \column{0.62\textwidth}
+    \begin{center}
       \begin{itemize}
         \setlength\itemsep{0.5em}
         \item \textbf{PROPOSAL}: Tool to propagate charged leptons
@@ -103,10 +106,24 @@
         \end{itemize}
         \item \textbf{Requirements:} Accuracy, performance
         \item \textbf{Processes:} Energy losses, scattering, decays
-        \item Possibility to use \textbf{different parametrizations} $\rightarrow$ Study \textbf{systematic uncertainties}
+        \item Possibility to use \textbf{different parametrizations} 
+        \begin{itemize}
+        \item[$\rightarrow$] Study \textbf{systematic uncertainties}
+      \end{itemize}
         \item \CC library with Python bindings
       \end{itemize}
+  \end{center}
+  \column{0.35\textwidth}
+      \begin{figure}
+          \centering
+          \includegraphics[width=0.8\linewidth]{plots/github.pdf}
+           \captionsetup{format=myformat}
+          \caption*{https://github.com/tudo-astroparticlephysics/PROPOSAL}
+      \end{figure}
+  \end{columns}
+
 \end{frame}
+
 
 \begin{frame}{Propagation}
   \Huge
@@ -118,7 +135,7 @@
 \begin{frame}{Propagation}
   \huge
   \begin{align*}
-      \underset{\text{continuous losses}}{v < v_\text{cut}} &&  v > \underset{\text{stochastic losses}}{v_\text{cut}}
+      \underset{\text{continuous losses}}{v < v_\text{cut}} &&  \underset{\text{stochastic losses}}{v > v_\text{cut}}
   \end{align*}\\
   \vspace{20px}
   \centering
@@ -150,7 +167,7 @@
 
 \begin{frame}
 \begin{columns}
-  \column{0.3\textwidth}
+  \column{0.35\textwidth}
   \begin{center}
     \begin{minipage}{0.9\textwidth}
       \textbf{Standard interactions:}
@@ -256,11 +273,11 @@
     \end{tikzpicture}
   \end{center}
   \column{0.5\textwidth}
-    With the energy fraction transferred to the muon pair:
+    Energy fraction transferred to the muon pair:
       \begin{align*}
         v = \frac{\left( \epsilon_+ + \epsilon_- \right)}{E} \\[0.1cm]
       \end{align*}
-    With the asymmetry parameter:
+    Asymmetry parameter:
     \begin{align*}
       \rho = \frac{\left( \epsilon_+ - \epsilon_- \right)}{\left( \epsilon_+ + \epsilon_- \right)} \\[0.1cm]
     \end{align*}
@@ -272,7 +289,8 @@
 
 \end{frame}
 
-\begin{frame}<presentation:0>[noframenumbering]{Double-differential cross section}
+%<presentation:0>[noframenumbering]
+\begin{frame}{Double-differential cross section}
 
 For production of muon pairs \footnote{Kelner, Kokoulin, Petrukhin: Phys. of Atomic Nuclei, Vol. 63, No. 9, 2000, pp. 1603-1611}:
 \begin{align*}
@@ -357,7 +375,7 @@ v_\text{max} &= 1 - \frac{m_\mu}{E}. \\
   \end{columns}
   \small
     \vspace{5mm}
-    Stochastic losses in standard rock of \num{e6} muons with $E = \SI{e8}{\mega\electronvolt}$, $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = \num{5e-2}$.
+    Stochastic losses, standard rock, \num{e6} muons with $E = \SI{e8}{\mega\electronvolt}$, $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = \num{5e-2}$.
 \end{frame}
 
 \begin{frame}
@@ -406,8 +424,8 @@ v_\text{max} &= 1 - \frac{m_\mu}{E}. \\
            \node[right] at (c) {$\nu$};
            %\node[right] at (f1) {$\mu^+$};
            %\node[right] at (f2) {$\mu^-$};
-           \node[left] at (e) {$Z$};
-           \node[right] at (f) {$Z'$};
+           \node[left] at (e) {$N$};
+           \node[right] at (f) {$N'$};
       \end{feynman}
     \end{tikzpicture}
   \end{center}
@@ -415,7 +433,7 @@ v_\text{max} &= 1 - \frac{m_\mu}{E}. \\
     \begin{itemize}
       \item Highly suppressed process
       \item Similarities with "lollipop" signature in $\tau$-events
-      \item Crossing symmetry \footnotemark:
+      \item Crossing symmetry\footnotemark:
       \begin{align*}
         \mathrm{d}\sigma\left( \mu Z \rightarrow \nu_\mu Z \right) = \frac{1}{2} \mathrm{d}\sigma\left( \nu_\mu Z \rightarrow \mu Z \right)
       \end{align*}
